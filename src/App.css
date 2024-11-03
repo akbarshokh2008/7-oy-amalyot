@@ -1,0 +1,9 @@
+.active {
+  font-weight: 900;
+}
+.asosiy {
+  height: 400px;
+  background: linear-gradient(180deg, #3333a3 5.09%, #121212 83.4%);
+  /* background: white;
+  margin-top: 100px; */
+}
