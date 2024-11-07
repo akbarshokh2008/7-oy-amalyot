@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import '../App.css';
 // Img
-import Back from '../assets/Back.svg';
-import Forward from '../assets/Forward.svg';
+import Back from '../assets/back.svg';
+import Forward from '../assets/forward.svg';
 import http from '../axios';
 import { useNavigate } from 'react-router-dom';
 
