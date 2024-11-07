@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from './utils/utils';
 
 const http = axios.create({
-  baseURL: 'https://api.spotify.com/v1/browse/',
+  baseURL: 'https://api.spotify.com/v1/',
 });
 
 http.interceptors.request.use((config) => {

@@ -48,7 +48,7 @@ function MainLayout({ children }) {
         </button>
       )}
 
-      <div className='musicPlayer fixed h-[6vw] bg-blue-600 z-50 bottom-0 w-full'>
+      <div className='musicPlayer fixed h-[6vw] bg-[#181818] z-50 bottom-0 w-full'>
         <MusicPlayer />
       </div>
     </div>

@@ -7,3 +7,8 @@
   /* background: white;
   margin-top: 100px; */
 }
+
+.likes {
+  height: 400px;
+  background: linear-gradient(180deg, #def628 5.09%, #121212 83.28%);
+}

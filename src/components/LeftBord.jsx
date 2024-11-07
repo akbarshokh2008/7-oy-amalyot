@@ -13,7 +13,7 @@ function LeftBord() {
   const [madeForYou, setMadeForYou] = useState([]);
   useEffect(() => {
     http
-      .get('categories/0JQ5DAqbMKFHOzuVTgTizF/playlists')
+      .get('browse/categories/0JQ5DAqbMKFHOzuVTgTizF/playlists')
       .then((data) => {
         // console.log(data);
         setMadeForYou(data.data.playlists.items);

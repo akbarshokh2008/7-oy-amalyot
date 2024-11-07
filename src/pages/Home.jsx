@@ -4,7 +4,7 @@ import '../App.css';
 import Back from '../assets/Back.svg';
 import Forward from '../assets/Forward.svg';
 import http from '../axios';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [featured, setFeatured] = useState([]);
@@ -18,9 +18,10 @@ function Home() {
   const [seeAllRecent, setSeeAllRecent] = useState(false);
   const [seeAllJump, setSeeAllJump] = useState(false);
   const [seeAllUniq, setSeeAllUniq] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     http
-      .get('featured-playlists')
+      .get('browse/featured-playlists')
       .then((data) => {
         // console.log(data.data.playlists.items);
         setFeatured(data.data.playlists.items);
@@ -29,7 +30,7 @@ function Home() {
   }, []);
   useEffect(() => {
     http
-      .get('categories/toplists/playlists')
+      .get('browse/categories/toplists/playlists')
       .then((data) => {
         // console.log(data.data.playlists);
         setMixes(data.data.playlists.items);
@@ -38,7 +39,7 @@ function Home() {
   }, []);
   useEffect(() => {
     http
-      .get('categories/0JQ5DAqbMKFHOzuVTgTizF/playlists')
+      .get('browse/categories/0JQ5DAqbMKFHOzuVTgTizF/playlists')
       .then((data) => {
         // console.log(data.data.playlists.items);
         setMade(data.data.playlists.items);
@@ -48,7 +49,7 @@ function Home() {
 
   useEffect(() => {
     http
-      .get('categories/0JQ5DAqbMKFQ00XGBls6ym/playlists')
+      .get('browse/categories/0JQ5DAqbMKFQ00XGBls6ym/playlists')
       .then((data) => {
         // console.log(data.data.playlists.items);
         setRecent(data.data.playlists.items);
@@ -58,7 +59,7 @@ function Home() {
 
   useEffect(() => {
     http
-      .get('categories/0JQ5DAqbMKFLVaM30PMBm4/playlists')
+      .get('browse/categories/0JQ5DAqbMKFLVaM30PMBm4/playlists')
       .then((data) => {
         // console.log(data.data.playlists.items);
         setJump(data.data.playlists.items);
@@ -68,7 +69,7 @@ function Home() {
 
   useEffect(() => {
     http
-      .get('categories/0JQ5DAqbMKFCbimwdOYlsl/playlists')
+      .get('browse/categories/0JQ5DAqbMKFCbimwdOYlsl/playlists')
       .then((data) => {
         // console.log(data.data.playlists.items);
         setUniq(data.data.playlists.items);
@@ -92,6 +93,24 @@ function Home() {
   function handleSeeAllUniq() {
     setSeeAllUniq(!seeAllUniq);
   }
+  function handleFeat(id) {
+    console.log(id);
+  }
+  function handleMixes(id) {
+    navigate(`details/${id}`);
+  }
+  function handleRecent(id) {
+    navigate(`details/${id}`);
+  }
+  function handleJump(id) {
+    navigate(`details/${id}`);
+  }
+  function handleUniq(id) {
+    navigate(`details/${id}`);
+  }
+  function handleMade(id) {
+    navigate(`details/${id}`);
+  }
   return (
     <div className='w-full '>
       <div className='contain'>
@@ -105,16 +124,16 @@ function Home() {
             {featured.length > 0 &&
               featured.slice(1, 7).map((value, index) => {
                 return (
-                  <Link
-                    to='/'
+                  <div
                     className='w-[440px] flex  gap-6 items-center bg-[#b3b3b32e] rounded-md'
                     key={index}
+                    onClick={() => handleFeat(value.id)}
                   >
                     {value.images.map((value) => {
                       return <img src={value.url} alt='' width={66} />;
                     })}
                     <p>{value.name}</p>
-                  </Link>
+                  </div>
                 );
               })}
           </div>
@@ -135,9 +154,9 @@ function Home() {
             {seeAll
               ? mixes.map((value) => {
                   return (
-                    <Link
-                      to='/'
+                    <div
                       className='card p-5 rounded-md shadow-2xl w-[225px]  bg-[#252323] hover:bg-[#292929]'
+                      onClick={() => handleMixes(value.id)}
                     >
                       {value.images.map((value) => {
                         return (
@@ -153,13 +172,13 @@ function Home() {
                         {value.name}
                       </h3>
                       <p className='text-[#B3B3B3] pt-2'>{value.description}</p>
-                    </Link>
+                    </div>
                   );
                 })
               : mixes.slice(0, 4).map((value) => {
                   return (
-                    <Link
-                      to='/'
+                    <div
+                      onClick={() => handleMixes(value.id)}
                       className='card p-5 rounded-md shadow-2xl w-[225px]  bg-[#252323] hover:bg-[#292929]'
                     >
                       {value.images.map((value) => {
@@ -176,11 +195,11 @@ function Home() {
                         {value.name}
                       </h3>
                       <p className='text-[#B3B3B3] pt-2'>{value.description}</p>
-                    </Link>
+                    </div>
                   );
                 })}
           </div>
-
+          {/* MADE */}
           <div className='flex pt-8 justify-between'>
             <h3 className='text-3xl text-white font-bold pb-6'>Made for you</h3>
             <button
@@ -194,9 +213,9 @@ function Home() {
             {seeAllMade
               ? made.map((value) => {
                   return (
-                    <Link
-                      to='/'
+                    <div
                       className='card p-5 rounded-md shadow-2xl w-[225px]  bg-[#252323] hover:bg-[#292929]'
+                      onClick={() => handleMade(value.id)}
                     >
                       {value.images.map((value) => {
                         return (
@@ -216,13 +235,13 @@ function Home() {
                           ? value.description.slice(41, 80)
                           : value.description}
                       </p>
-                    </Link>
+                    </div>
                   );
                 })
               : made.slice(0, 4).map((value) => {
                   return (
-                    <Link
-                      to='/'
+                    <div
+                      onClick={() => handleMade(value.id)}
                       className='card p-5 rounded-md shadow-2xl w-[225px]  bg-[#252323] hover:bg-[#292929]'
                     >
                       {value.images.map((value) => {
@@ -243,11 +262,11 @@ function Home() {
                           ? value.description.slice(41, 80)
                           : value.description}
                       </p>{' '}
-                    </Link>
+                    </div>
                   );
                 })}
           </div>
-
+          {/* RECENT */}
           <div className='flex  pt-8 justify-between'>
             <h3 className='text-3xl text-white font-bold pb-6'>
               Recently played
@@ -264,8 +283,8 @@ function Home() {
             {seeAllRecent
               ? recent.map((value) => {
                   return (
-                    <Link
-                      to='/'
+                    <div
+                      onClick={() => handleRecent(value.id)}
                       className='card p-5 rounded-md shadow-2xl w-[225px]  bg-[#252323] hover:bg-[#292929]'
                     >
                       {value.images.map((value) => {
@@ -286,13 +305,13 @@ function Home() {
                           ? value.description.slice(41, 80)
                           : value.description}
                       </p>
-                    </Link>
+                    </div>
                   );
                 })
               : recent.slice(0, 4).map((value) => {
                   return (
-                    <Link
-                      to='/'
+                    <div
+                      onClick={() => handleRecent(value.id)}
                       className='card p-5 rounded-md shadow-2xl w-[225px]  bg-[#252323] hover:bg-[#292929]'
                     >
                       {value.images.map((value) => {
@@ -313,7 +332,7 @@ function Home() {
                           ? value.description.slice(41, 80)
                           : value.description}
                       </p>{' '}
-                    </Link>
+                    </div>
                   );
                 })}
           </div>
@@ -334,8 +353,8 @@ function Home() {
             {seeAllJump
               ? jump.map((value) => {
                   return (
-                    <Link
-                      to='/'
+                    <div
+                      onClick={() => handleJump(value.id)}
                       className='card p-5 rounded-md shadow-2xl w-[225px]  bg-[#252323] hover:bg-[#292929]'
                     >
                       {value.images.map((value) => {
@@ -356,13 +375,13 @@ function Home() {
                           ? value.description.slice(41, 80)
                           : value.description}
                       </p>
-                    </Link>
+                    </div>
                   );
                 })
               : jump.slice(0, 4).map((value) => {
                   return (
-                    <Link
-                      to='/'
+                    <div
+                      onClick={() => handleJump(value.id)}
                       className='card p-5 rounded-md shadow-2xl w-[225px]  bg-[#252323] hover:bg-[#292929]'
                     >
                       {value.images.map((value) => {
@@ -383,7 +402,7 @@ function Home() {
                           ? value.description.slice(41, 80)
                           : value.description}
                       </p>{' '}
-                    </Link>
+                    </div>
                   );
                 })}
           </div>
@@ -406,8 +425,8 @@ function Home() {
             {seeAllUniq
               ? uniq.map((value) => {
                   return (
-                    <Link
-                      to='/'
+                    <div
+                      onClick={() => handleUniq(value.id)}
                       className='card p-5 rounded-md shadow-2xl w-[225px]  bg-[#252323] hover:bg-[#292929]'
                     >
                       {value.images.map((value) => {
@@ -428,13 +447,13 @@ function Home() {
                           ? value.description.slice(41, 80)
                           : value.description}
                       </p>
-                    </Link>
+                    </div>
                   );
                 })
               : uniq.slice(0, 4).map((value) => {
                   return (
-                    <Link
-                      to='/'
+                    <div
+                      onClick={() => handleUniq(value.id)}
                       className='card p-5 rounded-md shadow-2xl w-[225px]  bg-[#252323] hover:bg-[#292929]'
                     >
                       {value.images.map((value) => {
@@ -455,7 +474,7 @@ function Home() {
                           ? value.description.slice(41, 80)
                           : value.description}
                       </p>{' '}
-                    </Link>
+                    </div>
                   );
                 })}
           </div>
