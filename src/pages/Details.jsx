@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import http from '../axios';
 import '../App.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { add, remove } from '../redux/likesSlice';
 
 // IMG
 import Back from '../assets/back.svg';
@@ -14,16 +16,22 @@ import PastkiST from '../assets/pastki.svg';
 import Search from '../assets/search.svg';
 import Clock from '../assets/clock.svg';
 import Yurak from '../assets/yashilYurak.svg';
+import BorderYurak from '../assets/borderYurak.svg';
 import Pause from '../assets/pause.svg';
 
-function Likes() {
+function Details() {
   const [playlist, setPlaylist] = useState([]);
   const [trac, setTrac] = useState([]);
   const [playing, setPlaying] = useState(false);
   const [current, setCurrent] = useState(null);
   const audioRef = useRef(null);
 
+  const dispatch = useDispatch();
   const { id } = useParams();
+
+  // Redux'dan likes olish
+  const likes = useSelector((state) => state.likes.value);
+
   useEffect(() => {
     http
       .get(`playlists/${id}`)
@@ -35,7 +43,8 @@ function Likes() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [id]);
+
   const handlePause = (x, y) => {
     if (audioRef.current.src === x && !audioRef.current.paused) {
       audioRef.current.pause();
@@ -49,8 +58,18 @@ function Likes() {
       setPlaying(true);
     }
   };
+
+  function handleLikes(value) {
+    const isLiked = likes.find((item) => item.id === value.track.id);
+    if (isLiked) {
+      dispatch(remove(value.track));
+    } else {
+      dispatch(add(value.track));
+    }
+  }
+
   return (
-    <div className='likes'>
+    <div className='details'>
       <div className=''>
         <div className='contain'>
           <div className='next flex gap-5 py-4 '>
@@ -128,10 +147,12 @@ function Likes() {
             <div className='trac pt-6 flex flex-col gap-5 pb-36'>
               {trac.length > 0 &&
                 trac.map((value, index) => {
+                  const isLiked = likes.find(
+                    (item) => item.id === value.track.id
+                  );
                   return (
                     <div
                       className='flex justify-between cursor-pointer bg-[#131313]'
-                      onClick={() => {}}
                       key={index}
                     >
                       <div className='nomi flex items-center w-[300px]'>
@@ -152,9 +173,13 @@ function Likes() {
                         <p className=''>{value.track.name}</p>
                       </div>
                       <div className='data flex items-center gap-4'>
-                        {value.track.track && (
-                          <img src={Yurak} alt='' width={40} className='pr-3' />
-                        )}
+                        <button onClick={() => handleLikes(value)}>
+                          {isLiked ? (
+                            <img src={Yurak} alt='' width={30} />
+                          ) : (
+                            <img src={BorderYurak} alt='' width={25} />
+                          )}
+                        </button>
                         <span>
                           {Math.floor(value.track.duration_ms / 60000)}:
                           {(
@@ -168,9 +193,9 @@ function Likes() {
                           }
                         >
                           {current?.id === value.track.id && playing ? (
-                            <img src={Pause} alt='pause' />
+                            <img src={Pause} alt='pause' width={50} />
                           ) : (
-                            <img src={Play} alt='pause' width={30} />
+                            <img src={Play} alt='play' width={50} />
                           )}
                         </button>
                       </div>
@@ -186,4 +211,4 @@ function Likes() {
   );
 }
 
-export default Likes;
+export default Details;

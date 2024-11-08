@@ -4,21 +4,8 @@ import MainLayout from './layout/MainLayout';
 import Home from './pages/Home';
 import Likes from './pages/Likes';
 import Details from './pages/Details';
-import http from './axios';
 
 function App() {
-  // const [playList, setPlayList] = useState([]);
-  // useEffect(() => {
-  //   http
-  //     .get('featured-playlists')
-  //     .then((response) => {
-  //       // console.log(response);
-  //       setPlayList(response);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
   return (
     <div>
       <Routes>
