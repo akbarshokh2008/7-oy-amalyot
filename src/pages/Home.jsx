@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../App.css';
 // Img
-import Back from '../assets/back.svg';
-import Forward from '../assets/forward.svg';
+
 import http from '../axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -114,10 +113,6 @@ function Home() {
   return (
     <div className='w-full '>
       <div className='contain'>
-        <div className='next flex gap-5 pt-3 '>
-          <img src={Back} alt='rasm' />
-          <img src={Forward} alt='rasm' />
-        </div>
         <div className='text-white  pt-6'>
           <h2 className='text-[39px] font-bold'>Good afternoon</h2>
           <div className='wrapper grid gap-16  grid-cols-2 gap-y-6 pt-4'>

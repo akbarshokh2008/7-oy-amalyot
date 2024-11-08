@@ -6,8 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { add, remove } from '../redux/likesSlice';
 
 // IMG
-import Back from '../assets/back.svg';
-import Forward from '../assets/forward.svg';
+
 import Play from '../assets/play.svg';
 import BushYurak from '../assets/bushLike.svg';
 import Dowload from '../assets/dowloand.svg';
@@ -71,12 +70,7 @@ function Details() {
   return (
     <div className='details'>
       <div className=''>
-        <div className='contain'>
-          <div className='next flex gap-5 py-4 '>
-            <img src={Back} alt='rasm' />
-            <img src={Forward} alt='rasm' />
-          </div>
-        </div>
+        <div className='contain'></div>
         <div className='contain'>
           <div className='div pt-8 flex gap-8 backdrop-blur-2xl'>
             {playlist?.images?.length && (
